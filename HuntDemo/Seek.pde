@@ -33,8 +33,6 @@ class Seek extends Steering {
   // Draw the target
   void draw() {
      pushStyle();
-     fill(204, 153, 0);
-     ellipse(target.x, target.y, radius, radius);
      popStyle();
   }
 }
