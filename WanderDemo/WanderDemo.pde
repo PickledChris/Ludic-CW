@@ -69,18 +69,16 @@ void drawInfoPanel() {
   text("Jitter (r/f) = " + wanderer.jitter, 10, 110);
   text("Circle radius (t/g) = " + wanderer.wanderCircleRadius, 10, 125);
   text("Wander distance (y/h) = " + wanderer.wanderDistance, 10, 140);
-  
-  PVector heading = PVector.mult(wanderer.forward, wanderer.radius);
-    heading.add(wanderer.position);
-  
-  line(startPos.x*100, startPos.y*100, heading.x, heading.y);
-  
+  text("circle = " + wanderer.velocity, 10, 155);
+  text("circle rad = " + wanderer.wanderCircleRadius, 10, 170);
+   
+   
   PVector cent = wander.centreOfWanderCircle();
-  ellipse(cent.x, cent.y, 5, 5);
+  //ellipse(cent.x, cent.y, 5, 5);
   float r = wanderer.wanderCircleRadius;
   noFill();
-  rect(cent.x - r, cent.y -r, 2 * r, 2 * r);
-  PVector tar = wander.targetPos();
+  ellipse(cent.x, cent.y, 2 * r, 2 * r);
+  PVector tar = wander.targetPosNoRand();
   ellipse(tar.x, tar.y, 5, 5);
   
   popStyle(); // Retrieve previous drawing style
