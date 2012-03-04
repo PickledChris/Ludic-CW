@@ -1,24 +1,29 @@
-class Evade extends Steering {
+
+class Evade extends Flee {
   
-  // Position/size of target
-  PVector target;
-  float radius;
+   Agent predator;
+  float predictionTime;
+  float endTime;
   
   // Initialisation
-  Evade(Agent a, PVector t, float r) {
-      super(a);
-      target = t;
-      radius = r;
+  Evade(Agent a, Agent predatorAgent, PVector t, float r) {
+      super(a, predatorAgent, t, r);
+      predictionTime = 5;
+      endTime = 20;
   }
   
-  PVector calculateRawForce() {
-      //TODO 
-    return new PVector(0,0);  
+  
+  
+  
+  PVector getFleeTarget() {
+     PVector prediction = PVector.mult(pursuerAgent.velocity, min(getPredictedTime(), endTime));
+     return PVector.add(pursuerAgent.position, prediction); 
   }
   
-  // Draw the target
-  void draw() {
-     pushStyle();
-     popStyle();
+  float getPredictedTime() {
+    PVector distance = PVector.sub(pursuerAgent.position, agent.position);
+    float distSize = distance.mag();
+    float veloSize = agent.velocity.mag() + pursuerAgent.velocity.mag();
+    return predictionTime * distSize / veloSize;
   }
 }

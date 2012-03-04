@@ -1,33 +1,37 @@
-class Flee extends Steering {
+/*
+ * The Flee Steering Behaviour
+ */
+class Flee extends Seek {
   
-  // Position/size of target
-  PVector target;
-  float radius;
+  Agent pursuerAgent;
   
   // Initialisation
-  Flee(Agent a, PVector t, float r) {
-      super(a);
-      target = t;
-      radius = r;
+  Flee(Agent a, Agent targetA, PVector t, float r) {
+      super(a, t, r);
+      pursuerAgent = targetA;
   }
   
-  PVector calculateRawForce() {
-      if (PVector.dist(target, agent.position) > radius) {
-        // Calculate Seek Force
-        PVector seek = PVector.sub(target, agent.position);
-        seek.normalize();
-        seek.mult(agent.maxSpeed);
-        seek.sub(agent.velocity);
-        return seek;
-      } else  {
-        // If agent's centre is over target stop fleeing
-        return new PVector(0,0); 
-      }     
+  /*
+  * gets the vector between the agent and pursuer and moves the vector onto the
+  * agent's current position.
+  */
+  PVector getTarget() {
+    PVector distToTarget = PVector.sub(agent.position, getFleeTarget());
+    distToTarget.add(agent.position);
+    return distToTarget;
+    
   }
+  
+  PVector getFleeTarget() {
+     return pursuerAgent.position; 
+  }
+
   
   // Draw the target
   void draw() {
      pushStyle();
+     fill(204, 153, 0);
+     ellipse(target.x, target.y, radius, radius);
      popStyle();
   }
 }
