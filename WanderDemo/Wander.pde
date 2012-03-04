@@ -22,19 +22,21 @@ class Wander extends Steering {
      PVector seek = PVector.sub(targetPos(), agent.position);
      seek.normalize();
      seek.mult(agent.maxSpeed);
-     seek.sub(agent.velocity);
      return seek;
   }
   
    PVector targetPos() {
-     PVector ans = centreOfWanderCircle();
      randomiseC();
-     ans.add(c);
-     return ans;
+     return PVector.add(centreOfWanderCircle(), c);
+  }
+  
+   PVector targetPosNoRand() {
+     return PVector.add(centreOfWanderCircle(), c);
   }
   
   PVector centreOfWanderCircle() {
-    PVector vel = agent.velocity; 
+    PVector vel = new PVector();
+    vel = agent.velocity.get();  
     vel.normalize();
     vel.mult(agent.wanderDistance);
     vel.add(agent.position);
@@ -44,16 +46,17 @@ class Wander extends Steering {
   
   void randomiseC() {
     
-    c.add(new PVector(agent.jitter * random(-1, 1), agent.jitter * random(-1, 1)));
+   c.add(new PVector(agent.jitter * random(-1, 1), agent.jitter * random(-1, 1)));
     c.normalize();
     c.mult(agent.wanderCircleRadius);
+    
   }
   
   // Draw the target
   void draw() {
      pushStyle();
-     fill(204, 153, 0);
-     ellipse(target.x, target.y, radius, radius);
+     //fill(204, 153, 0);
+     //ellipse(target.x, target.y, radius, radius);
      popStyle();
   }
 }
