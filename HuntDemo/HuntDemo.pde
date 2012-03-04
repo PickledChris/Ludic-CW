@@ -27,9 +27,9 @@ void setup() {
   hunter = new Agent(10, 10, randomPoint());
   prey = new Agent(10, 10, randomPoint());
   // Create a Seek behaviour
-  seek = new Seek(hunter, randomPoint(), 10);
+  seek = new Seek(hunter, prey.position, 10);
   pursue = new Pursue(hunter, randomPoint(), 10);
-  flee = new Flee(prey, randomPoint(), 10);
+  flee = new Flee(prey, hunter.position, 10);
   evade = new Evade(prey, randomPoint(), 10);
   // Add the default behaviour to the agent
   hunter.behaviours.add(seek);
@@ -80,8 +80,8 @@ void drawInfoPanel() {
   text("Max. Force (w/s) = " + hunter.maxForce, 10, 80);
   text("Max. Hunter Speed (e/d) = " + hunter.maxSpeed, 10, 95);
   text("Max. Prey Speed (e/d) = " + prey.maxSpeed, 10, 110);
-  text("Hunter steering: " + seek.active + pursue.active , 10, 125);
-  text("Prey steering: " +  flee.active + evade.active , 10, 140);
+  text("Hunter steering (r) = " + hunterActive() , 10, 125);
+  text("Prey steering (f) = " +  preyActive() , 10, 140);
   popStyle(); // Retrieve previous drawing style
 }
 
@@ -142,6 +142,24 @@ void toggleHunter() {
 void togglePrey(){
   flee.active = !flee.active;
   evade.active = !evade.active;
+}
+
+String hunterActive(){
+   if (seek.active) {
+     return "Seek";
+   } 
+   else{
+     return "Persue";
+   } 
+}
+
+String preyActive(){
+   if (flee.active) {
+     return "Flee";
+   } 
+   else{
+     return "Evade";
+   } 
 }
 
 // Toggle the pause state

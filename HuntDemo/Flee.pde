@@ -12,8 +12,17 @@ class Flee extends Steering {
   }
   
   PVector calculateRawForce() {
-      //TODO
-    return new PVector(0,0);   
+      if (PVector.dist(target, agent.position) > radius) {
+        // Calculate Seek Force
+        PVector seek = PVector.sub(target, agent.position);
+        seek.normalize();
+        seek.mult(agent.maxSpeed);
+        seek.sub(agent.velocity);
+        return seek;
+      } else  {
+        // If agent's centre is over target stop fleeing
+        return new PVector(0,0); 
+      }     
   }
   
   // Draw the target

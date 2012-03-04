@@ -13,7 +13,7 @@ class Pursue extends Steering {
   
   PVector calculateRawForce() {
       // TODO
-      return new PVector(0,0); 
+      return new PVector(0,0);
   }
   
   // Draw the target
