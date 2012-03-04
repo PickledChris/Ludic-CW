@@ -59,9 +59,9 @@ class Agent {
     annotate = false;
     
     // stopping distance (if required)
-    wanderDistance = 16.0f;
-    wanderCircleRadius = 60.0f;
-    jitter = 0.5f;
+    wanderDistance = 40.0f;
+    wanderCircleRadius = 20.0f;
+    jitter = 2f;
   }
   
   Agent(float m, float r, PVector p, int maxS, int maxF) {
