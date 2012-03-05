@@ -36,7 +36,5 @@ class Seek extends Steering {
   
   // Draw the target
   void draw() {
-     pushStyle();
-     popStyle();
   }
 }
