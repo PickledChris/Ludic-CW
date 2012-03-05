@@ -27,7 +27,7 @@ void setup() {
   hunter = new Agent(10, 10, randomPoint());
   prey = new Agent(10, 10, randomPoint());
   // Create a Seek behaviour
-  //seek = new Seek(hunter, prey.position, 10);
+  seek = new Seek(hunter, prey.position, 10);
   pursue = new Pursue(hunter, prey, randomPoint(), 10);
   flee = new Flee(prey, hunter, hunter.position, 10);
   evade = new Evade(prey, hunter, randomPoint(), 10);
@@ -88,11 +88,6 @@ void drawInfoPanel() {
 /*
  * Input handlers
  */
-
-// Mouse clicked, so move the target
-void mouseClicked() {
-   seek.target = new PVector(mouseX, mouseY); 
-}
 
 // Key pressed
 void keyPressed() {

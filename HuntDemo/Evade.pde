@@ -11,9 +11,6 @@ class Evade extends Flee {
       endTime = 20;
   }
   
-  
-  
-  
   PVector getFleeTarget() {
      PVector prediction = PVector.mult(pursuerAgent.velocity, min(getPredictedTime(), endTime));
      return PVector.add(pursuerAgent.position, prediction); 
@@ -25,6 +22,4 @@ class Evade extends Flee {
     float veloSize = agent.velocity.mag() + pursuerAgent.velocity.mag();
     return predictionTime * distSize / veloSize;
   }
-  
-
 }
