@@ -26,4 +26,5 @@ class Evade extends Flee {
     return predictionTime * distSize / veloSize;
   }
   
+
 }
