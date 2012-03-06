@@ -8,7 +8,7 @@
 ArrayList<Agent> agents = new ArrayList<Agent>();
 int agent_count = 10 ;
 Agent it;
-// Steering behaviours
+  // Steering behaviours
 ArrayList behaviours = new ArrayList<Agent>();
 PursueClosest itPursue;
 
@@ -25,17 +25,16 @@ void setup() {
   
   // Create the agents
   for (int i = 0; i < agent_count; i = i+1) {
-    agents.add(new Agent(10, 10, randomPoint()));
+    agents.add(new Agent(10, 10, randomPoint(), false));
   }
   
-  setIt(agents.get(agent_count - 1));
+  setIt(agents.get(0));
   
-  agents.get(0).behaviours.add(new Seek(agents.get(0), agents.get(1).position, 10));
   // Create the behaviours
-  for (int i = 0; i < agent_count - 1; i = i+1) {
-    Agent current_agent = agents.get(i);
-    current_agent.behaviours.add(new PursueClosest(current_agent, agents, randomPoint(), 10));
-    current_agent.behaviours.add(new Evade(current_agent, it, randomPoint(), 10));
+  for (Agent current_agent : agents) {
+    current_agent.allAgents = agents;
+    current_agent.behaviours.add(new PursueClosest(current_agent, randomPoint(), 10));
+    current_agent.behaviours.add(new EvadeTagger(current_agent, randomPoint(), 10));
   }
 
   smooth(); // Anti-aliasing on
@@ -44,6 +43,7 @@ void setup() {
 // Sets the agent as it
 void setIt(Agent a){
   it = a;
+  a.isIt = true;
 }
 
 // Pick a random point in the display window

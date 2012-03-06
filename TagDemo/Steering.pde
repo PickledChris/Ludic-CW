@@ -35,4 +35,7 @@ abstract class Steering {
   
   // Draw any associated objects
   abstract void draw();
+  
+  // whether the steering is a pursue type or a flee type
+  abstract boolean isPursueForce();
 }

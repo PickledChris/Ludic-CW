@@ -37,4 +37,8 @@ class Seek extends Steering {
   // Draw the target
   void draw() {
   }
+  
+  boolean isPursueForce() {
+    return true; 
+  }
 }
