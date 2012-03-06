@@ -30,4 +30,8 @@ class Flee extends Seek {
   // Draw the target
   void draw() {
   }
+  
+  boolean isPursueForce() {
+    return false; 
+  }
 }

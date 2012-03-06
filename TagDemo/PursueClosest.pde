@@ -6,12 +6,10 @@ class PursueClosest extends Seek {
   Agent prey;
   float predictionTime;
   float endTime;
-  ArrayList<Agent> prey_list;
   
   // Initialisation
-  PursueClosest(Agent a, ArrayList<Agent> preyAgents, PVector t, float r) {
+  PursueClosest(Agent a, PVector t, float r) {
       super(a, t, r);
-      prey_list = preyAgents;
       prey = getPrey();
       predictionTime = 5;
       endTime = 20;
@@ -19,20 +17,30 @@ class PursueClosest extends Seek {
   
   Agent getPrey() {
     // TODO calculate distance between current location and prey
-    Agent new_prey;
-    Agent closest_prey = prey;
+    if (this.prey == null) {
+      for (Agent a : this.agent.allAgents) {
+         if (a != this.agent) {
+           return a; 
+         }
+      } 
+    }
+    Agent closest_prey = this.prey;
     float current_closest_distance = getDistance(this.agent, prey);
     float current_target_distance = current_closest_distance;
     
-    for (int i = 0; i < prey_list.size() ; i = i+1){
-      Agent agent = prey_list.get(i);
+    for (Agent agent : this.agent.allAgents){
+      if (agent == this.agent) {
+        continue;
+      }
       float dist_from_hunter = getDistance(this.agent, agent);
       if (dist_from_hunter < current_closest_distance){
         current_closest_distance = dist_from_hunter;
         closest_prey = agent;
       }
+      
     }
     
+    Agent new_prey;
     // Only change target if new target is at least 50 closer
     if (current_closest_distance <= current_target_distance - 50){
       new_prey = closest_prey;
@@ -67,5 +75,9 @@ class PursueClosest extends Seek {
   
   // Draw the target
   void draw() {
+  }
+  
+  boolean isPursueForce() {
+   return true; 
   }
 }

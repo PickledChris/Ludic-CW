@@ -14,6 +14,8 @@ class Agent {
   PVector force;
   
   // Limits
+  float maxChaseSpeed;
+  float maxEvadeSpeed;
   float maxSpeed;
   float maxForce;
 
@@ -28,12 +30,23 @@ class Agent {
   // Should we draw steering annotations on agent?
   // e.g. draw the force vector
   boolean annotate;
+  
+  // Tells the agent whether to pursue or flee
+  boolean isIt;
+  float DEFAULT_WAIT_NUMBER = 100;
+  float waitTime;
+  
+  ArrayList<Agent> allAgents;
 
   // Initialisation
-  Agent(float m, float r, PVector p) {
+  Agent(float m, float r, PVector p, boolean isIt) {
     mass = m;
     radius = r;
     position = p;
+    this.isIt = isIt;
+    this.allAgents = new ArrayList<Agent> ();
+    
+    
   
     // Agents starts at rest
     velocity = new PVector(0,0);
@@ -41,8 +54,16 @@ class Agent {
     force = new PVector(0,0);
     
     // Some arbitary initial limits
-    maxSpeed = 5;
+    maxChaseSpeed = 5;
+    maxEvadeSpeed = 4.6;
+    if (isIt) {
+      maxSpeed = maxChaseSpeed;
+    } else {
+      maxSpeed = maxEvadeSpeed;
+    }
     maxForce = 5;
+    
+    waitTime = 0;
    
     // Because velocity is zero vector 
     forward = new PVector(0,0);
@@ -57,13 +78,20 @@ class Agent {
   
   // Agent simulation step
   void update() {
+    // Simulates wait between being tagged and starting to pursue
+    if (waitTime > 0) {
+      waitTime--;
+      return; 
+    }
     
     // Sum the list of steering forces
     PVector sf = new PVector(0,0);
     for (int i = 0; i < behaviours.size(); i++) {
        Steering sb = (Steering) behaviours.get(i);
-       PVector sfi = sb.getForce();
-       sf.add(sfi); 
+       if (isIt && sb.isPursueForce() || !isIt && !sb.isPursueForce()) {
+         PVector sfi = sb.getForce();
+         sf.add(sfi); 
+       }
     }
     // Trim the steering force
     if (maxForce > 0) sf.limit(maxForce);    
@@ -99,6 +127,28 @@ class Agent {
     forward.normalize();
     side.x = -forward.y;
     side.y = forward.x;
+    
+    if (isIt) {
+      for (Agent a : allAgents) {
+        if (a != this && this.hasCaught(a)) {
+          this.setIt(false);
+          a.setIt(true);
+          a.waitForEscape();
+          break; 
+        }
+      }
+    }
+    
+    
+  }
+  
+  void waitForEscape() {
+    waitTime = DEFAULT_WAIT_NUMBER;
+  }
+  
+  boolean hasCaught(Agent a) {
+    PVector diff = PVector.sub(this.position, a.position);
+    return  diff.mag() <= this.radius;
   }
   
   
@@ -190,6 +240,15 @@ class Agent {
     global.add(position);    
     
     return global;
+  }
+  
+  void setIt(boolean it) {
+    isIt = it;
+    if (it) {
+      maxSpeed = maxChaseSpeed;
+    } else {
+      maxSpeed = maxEvadeSpeed;
+    } 
   }
 }
 
