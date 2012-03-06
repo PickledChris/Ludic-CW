@@ -1,4 +1,3 @@
-
 class Evade extends Flee {
   
    Agent predator;
