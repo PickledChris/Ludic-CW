@@ -18,7 +18,14 @@ class EvadeTagger extends Evade {
         break; 
       }
     }
-    return super.getFleeTarget();  
+    
+    
+    PVector diff = PVector.sub(pursuerAgent.position, agent.position);
+    if (diff.mag() > 200 + random(-25, 25)) {
+      return agent.position; 
+    } else {
+      return super.getFleeTarget();  
+    }
   }
   
 }
