@@ -82,6 +82,9 @@ void drawInfoPanel() {
   text("Max. Prey Speed (e/d) = " + prey.maxSpeed, 10, 110);
   text("Hunter steering (r) = " + hunterActive() , 10, 125);
   text("Prey steering (f) = " +  preyActive() , 10, 140);
+  if (hunter.finished) {
+    text("Hunter finish time = " + hunter.getFinishTime(), 10, 155);
+  }
   popStyle(); // Retrieve previous drawing style
 }
 

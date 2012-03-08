@@ -15,6 +15,10 @@ class Seek extends Steering {
   }
   
   PVector calculateRawForce() {
+      if (PVector.sub(this.agent.position, prey.position).mag() <= prey.radius + this.agent.radius ) {
+        this.agent.finished = true; 
+      }
+    
       // Check that agent's centre is not over target
       if (PVector.dist(target, agent.position) > radius) {
         // Calculate Seek Force

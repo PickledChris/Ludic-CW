@@ -3,6 +3,7 @@
  */
 abstract class Steering {
   
+  
   // The steered agent
   Agent agent;
   // Relative weight in sum of all steering forces
