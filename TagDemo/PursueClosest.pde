@@ -42,7 +42,7 @@ class PursueClosest extends Seek {
     
     Agent new_prey;
     // Only change target if new target is at least 50 closer
-    if (current_closest_distance <= current_target_distance - 50){
+    if (current_closest_distance <= current_target_distance - 20){
       new_prey = closest_prey;
     }
     else{

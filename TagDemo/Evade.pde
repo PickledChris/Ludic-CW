@@ -9,12 +9,20 @@ class Evade extends Flee {
   Evade(Agent a, Agent predatorAgent, PVector t, float r) {
       super(a, predatorAgent, t, r);
       predictionTime = 5;
-      endTime = 20;
+      endTime = 5;
   }
   
   PVector getFleeTarget() {
-     PVector prediction = PVector.mult(pursuerAgent.velocity, min(getPredictedTime(pursuerAgent), endTime));
-     return PVector.add(pursuerAgent.position, prediction); 
+    
+    PVector prediction = PVector.mult(pursuerAgent.velocity, min(getPredictedTime(pursuerAgent), endTime));
+    PVector predictionDist = PVector.sub(prediction, pursuerAgent.position);
+    PVector pursueDist = PVector.sub(this.agent.position, pursuerAgent.position);
+    if (predictionDist.mag() < pursueDist.mag()) {
+      return PVector.add(pursuerAgent.position, prediction);   
+    } else {
+      return pursuerAgent.position; 
+    }
+    
   }
   
   float getPredictedTime(Agent pursuer) {

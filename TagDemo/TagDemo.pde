@@ -6,7 +6,7 @@
 
 // Agents
 ArrayList<Agent> agents = new ArrayList<Agent>();
-int agent_count = 10 ;
+int agent_count = 10;
 Agent it;
   // Steering behaviours
 ArrayList behaviours = new ArrayList<Agent>();
@@ -28,7 +28,7 @@ void setup() {
     agents.add(new Agent(10, 10, randomPoint(), false));
   }
   
-  setIt(agents.get(0));
+  agents.get(0).setIt(true);
   
   // Create the behaviours
   for (Agent current_agent : agents) {
@@ -38,12 +38,6 @@ void setup() {
   }
 
   smooth(); // Anti-aliasing on
-}
-
-// Sets the agent as it
-void setIt(Agent a){
-  it = a;
-  a.isIt = true;
 }
 
 // Pick a random point in the display window
@@ -84,6 +78,9 @@ void drawInfoPanel() {
   //text("Max. Prey Speed (e/d) = " + prey.maxSpeed, 10, 110);
   //text("Hunter steering (r) = " + hunterActive() , 10, 125);
   //text("Prey steering (f) = " +  preyActive() , 10, 140);
+  text ("position: " + agents.get(0).position.x + ", " + agents.get(0).position.y + ".", 10, 65);
+  PVector wallForce = ((Steering) agents.get(0).behaviours.get(0)).getWallForce();
+  text ("force: " + wallForce.x + ", " + wallForce.y, 10, 80);
   popStyle(); // Retrieve previous drawing style
 }
 
