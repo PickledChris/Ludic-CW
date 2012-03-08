@@ -3,6 +3,10 @@
  */
 class Agent {
   
+   boolean finished = false;
+   float startTime = -1f;
+   float finishTime = -1f;
+  
   // Body  
   float mass;
   float radius;
@@ -53,10 +57,20 @@ class Agent {
     
     // Don't draw annotations
     annotate = false;
+    finished = false;
   }  
   
   // Agent simulation step
   void update() {
+    
+    if (startTime < 0) {
+      startTime = millis();
+    }
+    
+    if (finished && finishTime < 0) {
+      finishTime = millis();
+      return; 
+    }
     
     // Sum the list of steering forces
     PVector sf = new PVector(0,0);
@@ -75,6 +89,7 @@ class Agent {
     if (maxSpeed > 0) velocity.limit(maxSpeed);
     position.add(velocity);
     
+    /*
     // Dead stop at vertical boundaries
     if (position.x <= 0) {
       position.x = 0;
@@ -92,6 +107,7 @@ class Agent {
       position.y = height;
       velocity = new PVector(0,0);
     }
+    */
     
     // Calculate forward and side vectors
     forward.x = velocity.x;
@@ -190,6 +206,11 @@ class Agent {
     global.add(position);    
     
     return global;
+  }
+  
+  
+  float getFinishTime() {
+    return this.finishTime - this.startTime; 
   }
 
 }

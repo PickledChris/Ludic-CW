@@ -34,10 +34,10 @@ void setup() {
   // Add the default behaviour to the agent
   hunter.behaviours.add(seek);
   hunter.behaviours.add(pursue);
-  pursue.active = false;
+  seek.active = false;
   prey.behaviours.add(flee);
   prey.behaviours.add(evade);
-  evade.active = false;
+  flee.active = false;
   
   // Make the hunter faster
   hunter.maxSpeed = 5.5;
@@ -53,7 +53,7 @@ PVector randomPoint() {
 // The draw loop
 void draw() {
   // Clear the display
-  background(255); 
+  background(255);
   
   // Move forward one step in steering simulation
   if (!pause) {
@@ -82,6 +82,9 @@ void drawInfoPanel() {
   text("Max. Prey Speed (e/d) = " + prey.maxSpeed, 10, 110);
   text("Hunter steering (r) = " + hunterActive() , 10, 125);
   text("Prey steering (f) = " +  preyActive() , 10, 140);
+  if (hunter.finished) {
+    text("Hunter finish time = " + hunter.getFinishTime(), 10, 155);
+  }
   popStyle(); // Retrieve previous drawing style
 }
 

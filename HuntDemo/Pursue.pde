@@ -16,6 +16,9 @@ class Pursue extends Seek {
   }
   
   PVector getTarget() {
+    
+    
+    
     PVector prediction = PVector.mult(prey.velocity, min(getPredictedTime(), endTime));
     return PVector.add(prey.position, prediction); 
   }
