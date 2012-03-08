@@ -22,9 +22,8 @@ abstract class Steering {
     if (active) {
        // Actual force is calculated in subclass
        PVector f = calculateRawForce();
-       //PVector wallForce = getWallForce();
-       //PVector collisionForce = getCollisionForce();
-       //f.add(wallForce);
+       PVector wallForce = getWallForce();
+       f.add(wallForce);
        f.mult(weight); // Weight the result
        return f;
     } else {
@@ -35,7 +34,7 @@ abstract class Steering {
 
   PVector getWallForce() {
     
-    float width = 1000;
+    /*float width = 1000;
     float height = 600;
     float error = 0.001;
     
@@ -49,9 +48,9 @@ abstract class Steering {
     force.x = pow(distToXWall/200, 3);
     force.y = pow(distToYWall/200, 3);
     
-    return force;
+    return force;*/
     
-    /*
+    
     float xDist = 50;
     float yDist = 50;
     float xWidth = 1000;
@@ -67,8 +66,8 @@ abstract class Steering {
     } else if (x > (xWidth - xDist)) {
       force.x = -1 * (xDist - (xWidth - x));
     }
-    force.x = pow (force.x, 5);
-    force.x = force.x / 20;
+    force.x = pow (force.x, 3);
+    force.x = force.x / 40;
     
     if (y < yDist) {
      
@@ -80,7 +79,7 @@ abstract class Steering {
     force.y = force.y / 20;
     
     return force;
-    */
+    
   }
   
   

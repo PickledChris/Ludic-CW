@@ -131,17 +131,16 @@ class Agent {
     for (Agent a : allAgents) {
       if (a != this) {
         if (this.hasCollided(a)) {
-          
+          this.position.sub(this.velocity);
           this.velocity.mult(-1);
-          a.velocity.mult(-1);
-
+          
           if (this.isIt && this.waitTime <= 0) {
             a.setIt(true);
             this.setIt(false);
-          } else if (a.isIt && this.waitTime <= 0) {
+          }/* else if (a.isIt && this.waitTime <= 0) {
             a.setIt(false);
-            this.setIt(true); 
-          }
+            this.setIt(true);
+          }*/
         }
       }
     }
@@ -155,8 +154,9 @@ class Agent {
   }
   
   boolean hasCollided(Agent a) {
-    PVector diff = PVector.sub(this.position, a.position);
-    return  diff.mag() <= this.radius + a.radius;
+    float diff = PVector.sub(this.position, a.position).mag();
+    
+    return  diff <= this.radius + a.radius;
   }
   
   
