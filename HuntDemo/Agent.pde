@@ -154,7 +154,7 @@ class Agent {
   }
 
   // Vary maximum force  
-  void incMaxForce() {    
+  void incMaxForce() {
     maxForce++;
   }
   void decMaxForce() {    

@@ -128,16 +128,23 @@ class Agent {
     side.x = -forward.y;
     side.y = forward.x;
     
-    if (isIt) {
-      for (Agent a : allAgents) {
-        if (a != this && this.hasCaught(a)) {
-          this.setIt(false);
-          a.setIt(true);
-          a.waitForEscape();
-          break; 
+    for (Agent a : allAgents) {
+      if (a != this) {
+        if (this.hasCollided(a)) {
+          this.position.sub(this.velocity);
+          this.velocity.mult(-1);
+          
+          if (this.isIt && this.waitTime <= 0) {
+            a.setIt(true);
+            this.setIt(false);
+          }/* else if (a.isIt && this.waitTime <= 0) {
+            a.setIt(false);
+            this.setIt(true);
+          }*/
         }
       }
     }
+    
     
     
   }
@@ -146,9 +153,10 @@ class Agent {
     waitTime = DEFAULT_WAIT_NUMBER;
   }
   
-  boolean hasCaught(Agent a) {
-    PVector diff = PVector.sub(this.position, a.position);
-    return  diff.mag() <= this.radius;
+  boolean hasCollided(Agent a) {
+    float diff = PVector.sub(this.position, a.position).mag();
+    
+    return  diff <= this.radius + a.radius;
   }
   
   
@@ -246,6 +254,7 @@ class Agent {
     isIt = it;
     if (it) {
       maxSpeed = maxChaseSpeed;
+      waitForEscape();
     } else {
       maxSpeed = maxEvadeSpeed;
     } 
